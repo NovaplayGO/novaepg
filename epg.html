@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaEPG | Guía de TV en Vivo</title>
+    <link rel="canonical" href="https://novaplaygo.github.io/novaepg/" />
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-hover: #b91c1c;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --sidebar-bg: #0c0f17;
+            --input-bg: #1a1f2e;
+            --text: #ffffff;
+            --text-muted: #9aa3b2;
+            --border: rgba(255,255,255,0.05);
+            --grid-time: #1a1f2e;
+            --nav-height: 70px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow: hidden; }
+
+        /* Navegación Premium Unificada */
+        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 18px; letter-spacing: -0.5px; }
+        .nav-brand img { width: 36px !important; height: 32px !important; border-radius: 8px; flex-shrink: 0; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 13px; font-weight: 700; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
+        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+        .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+        .admin-menu { position: relative; display: flex; align-items: center; height: var(--nav-height); padding: 0 10px; }
+        .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; gap: 10px; transition: 0.2s; position: relative; z-index: 10002; }
+        .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
+        .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 260px; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; display: none; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 10001; margin-top: 5px; }
+        .dropdown-content::before { content: ""; position: absolute; top: -30px; left: 0; right: 0; height: 40px; background: transparent; }
+        .admin-menu:hover .dropdown-content { display: flex; }
+        .dropdown-content a { padding: 15px 20px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 12px; }
+        .dropdown-content a i { width: 20px; color: var(--primary); text-align: center; }
+        .dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 25px; }
+        .dropdown-content .logout-link { color: var(--error) !important; }
+
+        /* EPG Layout */
+        .epg-layout { display: flex; flex-direction: column; height: 100vh; padding-top: var(--nav-height); }
+        .epg-controls { padding: 20px 40px; display: flex; gap: 20px; background: var(--bg); border-bottom: 1px solid var(--border); align-items: center; }
+        .epg-controls .search-bar { flex: 1; max-width: 400px; position: relative; }
+        .epg-controls .search-bar input { width: 100%; padding: 12px 15px 12px 45px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 14px; }
+        .epg-controls .search-bar i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+
+        .epg-grid-container { flex: 1; overflow: auto; position: relative; background: #05060a; }
+        .epg-header { display: flex; position: sticky; top: 0; z-index: 100; background: var(--grid-time); border-bottom: 1px solid var(--border); }
+        .channel-col-header { min-width: 250px; padding: 15px 25px; background: var(--sidebar-bg); border-right: 2px solid var(--border); font-weight: 800; font-size: 12px; color: var(--text-muted); }
+        .timeline { display: flex; flex: 1; }
+        .time-marker { min-width: 300px; padding: 15px; border-right: 1px solid rgba(255,255,255,0.05); font-size: 12px; font-weight: 800; color: var(--text-muted); text-align: center; }
+
+        .epg-row { display: flex; border-bottom: 1px solid var(--border); min-height: 90px; }
+        .channel-cell { min-width: 250px; background: var(--sidebar-bg); border-right: 2px solid var(--border); padding: 15px 25px; display: flex; align-items: center; gap: 15px; position: sticky; left: 0; z-index: 50; transition: 0.2s; }
+        .channel-cell:hover { background: #161b29; }
+        .channel-cell img { width: 45px; height: 45px; border-radius: 8px; background: #000; object-fit: contain; }
+        .channel-name { font-weight: 700; font-size: 14px; }
+
+        .program-list { display: flex; position: relative; flex: 1; }
+        .program-item { position: absolute; height: 100%; padding: 10px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .program-item:hover { background: rgba(255,255,255,0.06); z-index: 10; }
+        .program-item.active { border-left: 4px solid var(--primary); background: rgba(229, 9, 20, 0.08); }
+        .p-title { font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .p-time { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 50000; padding: 20px; }
+        .modal { background: var(--card-bg); width: 100%; max-width: 450px; border-radius: 30px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); padding: 35px; text-align: center; }
+        .modal-header { padding-bottom: 20px; }
+        .modal-header h2 { font-size: 24px; font-weight: 900; color: #fff; }
+        .modal-body { padding: 10px 0 30px; }
+        .modal-body p { color: var(--text-muted); line-height: 1.6; font-size: 15px; font-weight: 600; }
+        .modal-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .close-btn { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 20px; color: var(--text-muted); }
+
+        /* Auth/Login Modal */
+        #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 20001; display: flex; justify-content: center; align-items: center; }
+        .auth-card { width: 400px; padding: 50px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 35px; text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+        .auth-card input { width: 100%; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 15px; font-size: 15px; }
+        .status { margin-top: 15px; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 800; display: none; text-align: center; }
+        .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
+        .form-group-auth { text-align: left; margin-bottom: 20px; }
+        .form-group-auth label { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 900px) {
+            .nav-toggle { display: flex; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; gap: 20px; padding: 40px; z-index: 9999; }
+            .nav-links.active { right: 0; }
+            .channel-col-header, .channel-cell { min-width: 150px; padding: 10px; }
+            .time-marker { min-width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nova-nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="https://novaplaygo.github.io/Dashboard/">
+            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" alt="Logo">
+            <div style="display: flex; flex-direction: column; line-height: 1;">
+                NOVAPLAY | BUSCADOR EPG
+                <span id="statusBadge" style="font-size: 8px; font-weight: 800; margin-top: 4px; letter-spacing: 0; opacity: 0.8; color: #4caf50;">🟢 OPERATIVO</span>
+            </div>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="https://novaplaygo.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
+            <div id="countryIndicator" style="margin-left: 15px; font-weight: 700; font-size: 11px; opacity: 0.6; color: #fff;">Global</div>
+            <a href="#" class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</a>
+            <div class="admin-menu" id="adminMenu" style="display: none;">
+                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
+                <div class="dropdown-content">
+                    <a href="https://novaplaygo.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
+                    <a href="https://novaplaygo.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
+                    <a href="https://novaplaygo.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
+                    <a href="https://novaplaygo.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
+                    <a href="https://novaplaygo.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="https://novaplaygo.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
+                    <a href="https://novaplaygo.github.io/novaepg/"><i class="fas fa-calendar-alt"></i> Buscador EPG ID</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link" style="color: var(--error) !important;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="auth-view" class="hidden">
+    <div class="auth-card">
+        <div style="text-align: right; margin-top: -30px; margin-right: -20px; margin-bottom: 20px;">
+            <button class="btn-icon" onclick="UI_OcultarLogin()" style="color: var(--text-muted); font-size: 20px; cursor: pointer; background: none; border: none;"><i class="fas fa-times"></i></button>
+        </div>
+        <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
+        <div class="form-group-auth">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="Usuario" autocomplete="username">
+        </div>
+        <div class="form-group-auth">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="btn-admin" id="loginButton" style="width:100%; justify-content:center; padding: 18px; border-radius: 14px; font-weight: 900; background: var(--primary); color: #fff;" onclick="iniciarSesion()">INGRESAR AL SISTEMA</button>
+        <div id="loginStatus" class="status"></div>
+    </div>
+</div>
+
+<div class="epg-layout hidden">
+    <div class="epg-controls">
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="channelSearch" placeholder="Filtrar canales..." oninput="renderGrid()">
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13px;">
+            <i class="fa-solid fa-clock"></i>
+            <span id="currentTime">--:--</span>
+        </div>
+    </div>
+
+    <div class="epg-grid-container" id="gridContainer">
+        <div class="epg-header" id="timeHeader">
+            <div class="channel-col-header">CANALES</div>
+            <div class="timeline" id="timelineHeader"></div>
+        </div>
+        <div id="epgBody"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal">
+        <div class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
+        <h2 id="mTitle">Título del Programa</h2>
+        <p id="mTime" style="color: var(--primary); font-weight: 700; font-size: 14px;"></p>
+        <p id="mDesc" style="color: var(--text-muted); line-height: 1.6;"></p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="novaModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="novaModalTitle">Confirmar</h2>
+        </div>
+        <div class="modal-body">
+            <p id="novaModalMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-admin" id="novaModalCancel" style="justify-content: center; background: var(--input-bg); color: #fff;">CANCELAR</button>
+            <button class="btn-admin" id="novaModalConfirm" style="justify-content: center; background: var(--primary); color: #fff;">ACEPTAR</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const PX_PER_HOUR = 300;
+    let channels = [];
+    let sessionToken = localStorage.getItem("novaplay_session_token");
+
+    async function init() {
+        restaurarSesion();
+        const urlParams = new URLSearchParams(window.location.search);
+        const file = urlParams.get('file');
+        const name = urlParams.get('n');
+        document.getElementById('countryIndicator').innerText = name || 'Global';
+        if (!file) { alert("No se especificó un archivo."); window.location.href = 'index.html'; return; }
+        try {
+            const res = await fetch('data/' + file + '?t=' + Date.now());
+            channels = await res.json();
+            renderGrid();
+            updateClock();
+            setInterval(updateClock, 10000);
+        } catch (e) { console.error("Error cargando EPG:", e); }
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('currentTime').innerText = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    }
+
+    function parseEpgDate(s) {
+        return new Date(Date.UTC(s.substring(0, 4), parseInt(s.substring(4, 6)) - 1, s.substring(6, 8), s.substring(8, 10), s.substring(10, 12), s.substring(12, 14)));
+    }
+
+    function formatTime(d) { return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0'); }
+
+    function renderGrid() {
+        const search = document.getElementById('channelSearch').value.toLowerCase();
+        const filtered = channels.filter(c => c.n.toLowerCase().includes(search));
+        const header = document.getElementById('timelineHeader');
+        const body = document.getElementById('epgBody');
+        const now = new Date(); now.setMinutes(0,0,0);
+        header.innerHTML = '';
+        for(let i=0; i<12; i++) {
+            const h = new Date(now.getTime() + i * 3600000);
+            header.innerHTML += `<div class="time-marker">${formatTime(h)}</div>`;
+        }
+        const startTime = now.getTime();
+        const nowFull = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
+        body.innerHTML = filtered.map(c => {
+            const programs = c.p.map(p => {
+                const start = parseEpgDate(p.s); const end = parseEpgDate(p.e);
+                const durationMin = (end.getTime() - start.getTime()) / 60000;
+                const width = (durationMin / 60) * PX_PER_HOUR;
+                const offsetMin = (start.getTime() - startTime) / 60000;
+                const left = (offsetMin / 60) * PX_PER_HOUR;
+                if (left + width < 0 || left > 12 * PX_PER_HOUR) return '';
+                const isActive = nowFull >= p.s && nowFull < p.e;
+                return `<div class="program-item ${isActive ? 'active' : ''}" style="width: ${width}px; left: ${left}px;" onclick="showDetails('${p.t.replace(/'/g, "\\'")}', '${formatTime(start)} - ${formatTime(end)}', '${(p.d || '').replace(/'/g, "\\'")}')"><div class="p-title">${p.t}</div><div class="p-time">${formatTime(start)}</div></div>`;
+            }).join('');
+            return `<div class="epg-row"><div class="channel-cell" onclick="copyId('${c.id}')"><img src="${c.l || 'https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'"><div class="channel-name">${c.n}<div style="font-size: 10px; opacity: 0.5; font-family: monospace;">${c.id}</div></div></div><div class="program-list">${programs}</div></div>`;
+        }).join('');
+    }
+
+    function copyId(id) { navigator.clipboard.writeText(id); alert('EPG ID Copiado: ' + id); }
+    function showDetails(t, time, d) { document.getElementById('mTitle').innerText = t; document.getElementById('mTime').innerText = time; document.getElementById('mDesc').innerText = d || 'Sin descripción.'; document.getElementById('modalOverlay').style.display = 'flex'; }
+    function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
+
+    function restaurarSesion() {
+        if (sessionToken) { UI_MostrarPanel(); }
+        else { UI_MostrarLogin(); }
+    }
+
+    function UI_MostrarPanel() {
+        document.getElementById("navLogin").style.display = 'none';
+        document.getElementById("adminMenu").style.display = 'flex';
+        document.getElementById("auth-view").classList.add("hidden");
+        document.querySelector(".epg-layout").classList.remove("hidden");
+    }
+
+    function UI_MostrarLogin() {
+        document.getElementById("navLogin").style.display = 'block';
+        document.getElementById("adminMenu").style.display = 'none';
+        document.getElementById("auth-view").classList.remove("hidden");
+        document.querySelector(".epg-layout").classList.add("hidden");
+    }
+
+    function UI_OcultarLogin() {
+        if (!sessionToken) {
+            alert("Debe iniciar sesión para ver la guía.");
+            return;
+        }
+        document.getElementById("auth-view").classList.add("hidden");
+        document.querySelector(".epg-layout").classList.remove("hidden");
+    }
+
+    async function iniciarSesion() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const btn = document.getElementById("loginButton");
+        if (!username || !password) return;
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+
+        try {
+            const res = await fetch("https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-canales", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "login", username, password })
+            });
+            const data = await res.json();
+            if (res.ok && data.token) {
+                sessionToken = data.token;
+                localStorage.setItem("novaplay_session_token", sessionToken);
+                UI_MostrarPanel();
+            } else {
+                const el = document.getElementById("loginStatus");
+                el.textContent = "Acceso denegado.";
+                el.style.display = "block";
+                el.className = "status error";
+                btn.disabled = false;
+                btn.textContent = 'INGRESAR AL SISTEMA';
+            }
+        } catch(e) {
+            alert("Error de conexión.");
+            btn.disabled = false;
+            btn.textContent = 'INGRESAR AL SISTEMA';
+        }
+    }
+
+    async function cerrarSesion() {
+        const confirmResult = await openModal("Cerrar Sesión", "¿Estás seguro que deseas cerrar sesión?");
+        if (confirmResult) {
+            localStorage.removeItem("novaplay_session_token");
+            sessionToken = null;
+            location.reload();
+        }
+    }
+
+    /* NovaModal Premium */
+    function openModal(title, msg, type = "confirm", options = [], defaultValue = "") {
+        return new Promise((resolve) => {
+            const m = document.getElementById("novaModal");
+            if (!m) return resolve(false);
+
+            document.getElementById("novaModalTitle").innerText = title;
+            document.getElementById("novaModalMessage").innerText = msg;
+
+            const inputContainer = document.getElementById("modalInputContainer");
+            const input = document.getElementById("modalInput");
+            const select = document.getElementById("modalSelect");
+
+            if (inputContainer) inputContainer.classList.add("hidden");
+            if (input) input.classList.add("hidden");
+            if (select) select.classList.add("hidden");
+
+            if (type === "prompt") {
+                if (inputContainer) inputContainer.classList.remove("hidden");
+                if (input) {
+                    input.classList.remove("hidden");
+                    input.value = defaultValue;
+                    setTimeout(() => input.focus(), 100);
+                }
+            } else if (type === "select") {
+                if (inputContainer) inputContainer.classList.remove("hidden");
+                if (select) {
+                    select.classList.remove("hidden");
+                    select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+                    setTimeout(() => select.focus(), 100);
+                }
+            }
+
+            m.style.display = "flex";
+
+            document.getElementById("novaModalCancel").onclick = () => {
+                m.style.display = "none";
+                resolve(false);
+            };
+            document.getElementById("novaModalConfirm").onclick = () => {
+                m.style.display = "none";
+                if (type === "prompt") resolve(input.value);
+                else if (type === "select") resolve(select.value);
+                else resolve(true);
+            };
+        });
+    }
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (navToggle) { navToggle.addEventListener('click', () => { navToggle.classList.toggle('active'); navLinks.classList.toggle('active'); }); }
+
+    init();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+name: Actualizar EPG Diariamente
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          # Eliminamos el cache: 'pip' ya que no hay requirements.txt
+
+      - name: Instalar Dependencias
+        run: pip install requests
+
+      - name: Ejecutar Actualización EPG
+        run: python scripts/update_epg.py
+
+      - name: Commit y Push de Datos
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # Eliminar el XML pesado para no superar los límites de GitHub
+          rm -f epg/guide.xml
+          git add data/*.json epg/guide.xml.gz
+          git commit -m "EPG: Actualización automática diaria (Buscador + Web + App)" || echo "Sin cambios para commitear"
+          git push
