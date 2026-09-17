@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NOVAPLAY | BUSCADOR EPG</title>
-    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -138,7 +138,7 @@
 <nav class="nova-nav">
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaygo.github.io/Dashboard/">
-            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" alt="Logo">
+            <img src="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp" alt="Logo">
             <div style="display: flex; flex-direction: column; line-height: 1;">
                 NOVAPLAY | BUSCADOR EPG
                 <span id="statusBadge" style="font-size: 8px; font-weight: 800; margin-top: 4px; letter-spacing: 0; opacity: 0.8; color: #4caf50;">🟢 OPERATIVO</span>
@@ -418,7 +418,7 @@
             const programs = (c.p || []).map(p => `<div class="prog-mini-item"><span class="prog-time">${formatTime(p.s)}</span><span class="prog-title">${p.t}</span></div>`).join('');
             return `
                 <div class="channel-result" style="${c.c.toLowerCase().includes('flow') ? 'border-left: 5px solid #ffd700;' : ''}">
-                    <img src="${c.l || 'https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'}" class="ch-logo" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'">
+                    <img src="${c.l || 'https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp'}" class="ch-logo" onerror="this.src='https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp'">
                     <div class="ch-info">
                         <div class="ch-country" style="${c.c.toLowerCase().includes('flow') ? 'color: #ffd700;' : ''}">${c.c}</div>
                         <h3>${c.n}</h3>

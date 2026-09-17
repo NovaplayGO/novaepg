@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaEPG | Guía de TV en Vivo</title>
     <link rel="canonical" href="https://novaplaygo.github.io/novaepg/" />
-    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -108,7 +108,7 @@
 <nav class="nova-nav">
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaygo.github.io/Dashboard/">
-            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" alt="Logo">
+            <img src="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp" alt="Logo">
             <div style="display: flex; flex-direction: column; line-height: 1;">
                 NOVAPLAY | BUSCADOR EPG
                 <span id="statusBadge" style="font-size: 8px; font-weight: 800; margin-top: 4px; letter-spacing: 0; opacity: 0.8; color: #4caf50;">🟢 OPERATIVO</span>
@@ -260,7 +260,7 @@
                 const isActive = nowFull >= p.s && nowFull < p.e;
                 return `<div class="program-item ${isActive ? 'active' : ''}" style="width: ${width}px; left: ${left}px;" onclick="showDetails('${p.t.replace(/'/g, "\\'")}', '${formatTime(start)} - ${formatTime(end)}', '${(p.d || '').replace(/'/g, "\\'")}')"><div class="p-title">${p.t}</div><div class="p-time">${formatTime(start)}</div></div>`;
             }).join('');
-            return `<div class="epg-row"><div class="channel-cell" onclick="copyId('${c.id}')"><img src="${c.l || 'https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'"><div class="channel-name">${c.n}<div style="font-size: 10px; opacity: 0.5; font-family: monospace;">${c.id}</div></div></div><div class="program-list">${programs}</div></div>`;
+            return `<div class="epg-row"><div class="channel-cell" onclick="copyId('${c.id}')"><img src="${c.l || 'https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp'"><div class="channel-name">${c.n}<div style="font-size: 10px; opacity: 0.5; font-family: monospace;">${c.id}</div></div></div><div class="program-list">${programs}</div></div>`;
         }).join('');
     }
 

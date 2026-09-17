@@ -8,7 +8,7 @@ def generate():
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<tv>\n'
     xml += '  <channel id="NovaSports">\n'
     xml += '    <display-name>NOVASPORTS</display-name>\n'
-    xml += '    <icon src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" />\n'
+    xml += '    <icon src="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp" />\n'
     xml += '  </channel>\n'
 
     start_date = now - timedelta(days=1)

@@ -2,7 +2,7 @@
 <tv>
   <channel id="NovaSports">
     <display-name>NOVASPORTS</display-name>
-    <icon src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" />
+    <icon src="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp" />
   </channel>
   <programme start="20260904161004 +0000" stop="20260904201004 +0000" channel="NovaSports">
     <title lang="es">EVENTOS NOVASPORTS</title>
