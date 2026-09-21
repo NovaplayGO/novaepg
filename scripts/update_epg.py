@@ -20,6 +20,8 @@ GLOBAL_WORLD_URL = "https://iptv-org.github.io/epg/guides/world.xml.gz"
 LATAM_HELMER_URL = "https://raw.githubusercontent.com/HelmerL86/EPG_Latin_America/main/EPG_Latino.xml.gz"
 LATINO_MIX_URL = "https://raw.githubusercontent.com/davidmuma/EPG_dobleM/master/guia.xml.gz"
 LATINO_PRO_URL = "https://raw.githubusercontent.com/acidjesuz/EPGTalk/master/guide.xml.gz"
+IPTV_ORG_PY_URL = "https://iptv-epg.org/files/epg-py.xml"
+IPTV_ORG_AR_URL = "https://iptv-epg.org/files/epg-ar.xml"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -157,6 +159,8 @@ def run():
         (FLOW_PY_URL, "Flow Paraguay"),
         (FLOW_UY_URL, "Flow Uruguay"),
         (FREE_EPG_PY_URL, "Free EPG Paraguay"),
+        (IPTV_ORG_PY_URL, "IPTV-Org Paraguay"),
+        (IPTV_ORG_AR_URL, "IPTV-Org Argentina"),
         (GLOBAL_WORLD_URL, "Internacional Global"),
         (LATINO_MIX_URL, "Latino Mix"),
                 (LATINO_PRO_URL, "Latino Pro"),
