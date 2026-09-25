@@ -15,6 +15,9 @@ PLUTO_TV_URL = "https://i.mjh.nz/PlutoTV/all.xml.gz"
 FLOW_AR_URL = "https://epg.lat/files/ar.xml.gz"
 FLOW_PY_URL = "https://epg.lat/files/py.xml.gz"
 FLOW_UY_URL = "https://epg.lat/files/uy.xml.gz"
+OPEN_EPG_ARGENTINA4_URL = "https://www.open-epg.com/files/argentina4.xml.gz"
+OPEN_EPG_URUGUAY2_URL = "https://www.open-epg.com/files/uruguay2.xml.gz"
+OPEN_EPG_ARGENTINA2_URL = "https://www.open-epg.com/files/argentina2.xml.gz"
 FREE_EPG_PY_URL = "https://free-epg.de/api/epg/py.xml.gz"
 GLOBAL_WORLD_URL = "https://iptv-org.github.io/epg/guides/world.xml.gz"
 LATAM_HELMER_URL = "https://raw.githubusercontent.com/HelmerL86/EPG_Latin_America/main/EPG_Latino.xml.gz"
@@ -158,12 +161,15 @@ def run():
         (FLOW_AR_URL, "Flow Argentina"),
         (FLOW_PY_URL, "Flow Paraguay"),
         (FLOW_UY_URL, "Flow Uruguay"),
+        (OPEN_EPG_ARGENTINA4_URL, "Open-EPG Argentina 4"),
+        (OPEN_EPG_ARGENTINA2_URL, "Open-EPG Argentina 2"),
+        (OPEN_EPG_URUGUAY2_URL, "Open-EPG Uruguay 2"),
         (FREE_EPG_PY_URL, "Free EPG Paraguay"),
         (IPTV_ORG_PY_URL, "IPTV-Org Paraguay"),
         (IPTV_ORG_AR_URL, "IPTV-Org Argentina"),
         (GLOBAL_WORLD_URL, "Internacional Global"),
         (LATINO_MIX_URL, "Latino Mix"),
-                (LATINO_PRO_URL, "Latino Pro"),
+        (LATINO_PRO_URL, "Latino Pro"),
         (LATAM_HELMER_URL, "Latino Helmer")
     ]
     
