@@ -120,13 +120,17 @@ def extract_channels_and_programs(xml_path, is_gz=False):
                 icon = icon_regex.search(extra)
                 channels.append({"id": cid, "name": name, "logo": icon.group(1) if icon else ""})
             now = datetime.now(timezone.utc).replace(tzinfo=None)
+            min_stop_dt = now - timedelta(hours=12)   # Conservar programación desde hace 12 horas (Replay)
+            max_start_dt = now + timedelta(hours=36)  # Conservar programación hasta 36 horas en el futuro (Hoy + Mañana)
+
             for match in p_regex.finditer(content):
                 start_str, stop_str, cid, title, extra = match.groups()
                 start_dt = parse_time(start_str)
                 stop_dt = parse_time(stop_str)
-                if stop_dt and stop_dt > now:
+                if start_dt and stop_dt and stop_dt > min_stop_dt and start_dt < max_start_dt:
                     desc = desc_regex.search(extra)
-                    programs.append({"cid": cid, "t": title, "s": start_dt.strftime("%Y%m%d%H%M%S"), "e": stop_dt.strftime("%Y%m%d%H%M%S"), "d": desc.group(1) if desc else ""})
+                    desc_text = desc.group(1).strip()[:150] if desc else ""
+                    programs.append({"cid": cid, "t": title.strip()[:120], "s": start_dt.strftime("%Y%m%d%H%M%S"), "e": stop_dt.strftime("%Y%m%d%H%M%S"), "d": desc_text})
     except Exception as e: print(f"   ⚠️ Error procesando {xml_path}: {e}")
     return channels, programs
 
@@ -243,25 +247,38 @@ def run():
     with open(os.path.join(DATA_DIR, "search_db.json"), "w", encoding="utf-8") as f:
         json.dump(search_db, f, separators=(',', ':'), ensure_ascii=False)
 
-    print("📺 Generando guide.xml global...")
-    XML_OUTPUT, GZ_OUTPUT = os.path.join(EPG_DIR, "guide.xml"), os.path.join(EPG_DIR, "guide.xml.gz")
+    print("📺 Generando guide.xml.gz global optimizado (Deduplicado + Compresión Nivel 9)...")
+    GZ_OUTPUT = os.path.join(EPG_DIR, "guide.xml.gz")
     def clean(t): return t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
-    with open(XML_OUTPUT, 'w', encoding='utf-8') as x:
-        x.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="NovaEPG">\n')
+
+    seen_channels = set()
+    seen_programmes = set()
+
+    with gzip.open(GZ_OUTPUT, 'wt', encoding='utf-8', compresslevel=9) as gz:
+        gz.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="NovaEPG">\n')
+
+        # 1. Deduplicar Canales
         for src in sources:
             for c in src['channels']:
-                x.write(f'  <channel id="{c["id"]}"><display-name>{clean(c["name"])}</display-name>')
-                if c["logo"]: x.write(f'<icon src="{clean(c["logo"])}" />')
-                x.write('</channel>\n')
+                cid = c["id"]
+                if cid not in seen_channels:
+                    seen_channels.add(cid)
+                    gz.write(f'  <channel id="{clean(cid)}"><display-name>{clean(c["name"])}</display-name>')
+                    if c["logo"]: gz.write(f'<icon src="{clean(c["logo"])}" />')
+                    gz.write('</channel>\n')
+
+        # 2. Deduplicar Programas
         for src in sources:
             for p in src['programs']:
-                x.write(f'  <programme start="{p["s"]} +0000" stop="{p["e"]} +0000" channel="{p["cid"]}"><title lang="es">{clean(p["t"])}</title>')
-                if p["d"]: x.write(f'<desc lang="es">{clean(p["d"])}</desc>')
-                x.write('</programme>\n')
-        x.write('</tv>')
-    with open(XML_OUTPUT, 'rb') as f_in, gzip.open(GZ_OUTPUT, 'wb') as f_out: f_out.writelines(f_in)
-    try: os.remove(XML_OUTPUT)
-    except: pass
+                prog_key = (p["cid"], p["s"], p["t"][:30])
+                if prog_key not in seen_programmes:
+                    seen_programmes.add(prog_key)
+                    gz.write(f'  <programme start="{p["s"]} +0000" stop="{p["e"]} +0000" channel="{clean(p["cid"])}"><title lang="es">{clean(p["t"])}</title>')
+                    if p["d"]: gz.write(f'<desc lang="es">{clean(p["d"])}</desc>')
+                    gz.write('</programme>\n')
+
+        gz.write('</tv>')
+
     print(f"✅ FINALIZADO EN {int(time.time() - start_time)} SEGUNDOS.")
 
 if __name__ == "__main__":
