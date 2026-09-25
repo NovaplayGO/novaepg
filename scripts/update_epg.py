@@ -18,6 +18,19 @@ FLOW_UY_URL = "https://epg.lat/files/uy.xml.gz"
 OPEN_EPG_ARGENTINA4_URL = "https://www.open-epg.com/files/argentina4.xml.gz"
 OPEN_EPG_URUGUAY2_URL = "https://www.open-epg.com/files/uruguay2.xml.gz"
 OPEN_EPG_ARGENTINA2_URL = "https://www.open-epg.com/files/argentina2.xml.gz"
+OPEN_EPG_PARAGUAY1_URL = "https://www.open-epg.com/files/paraguay1.xml"
+OPEN_EPG_PARAGUAY2_URL = "https://www.open-epg.com/files/paraguay2.xml"
+OPEN_EPG_MEXICO1_URL = "https://www.open-epg.com/files/mexico1.xml"
+OPEN_EPG_MEXICO2_URL = "https://www.open-epg.com/files/mexico2.xml"
+OPEN_EPG_URUGUAY_URL = "https://www.open-epg.com/files/uruguay.xml"
+OPEN_EPG_CHILE1_URL = "https://www.open-epg.com/files/chile1.xml"
+OPEN_EPG_CHILE2_URL = "https://www.open-epg.com/files/chile2.xml"
+OPEN_EPG_SPAIN_URL = "https://www.open-epg.com/files/spain.xml"
+OPEN_EPG_BRAZIL1_URL = "https://www.open-epg.com/files/brazil1.xml"
+OPEN_EPG_BRAZIL2_URL = "https://www.open-epg.com/files/brazil2.xml"
+OPEN_EPG_BRAZIL3_URL = "https://www.open-epg.com/files/brazil3.xml"
+OPEN_EPG_BRAZIL4_URL = "https://www.open-epg.com/files/brazil4.xml"
+OPEN_EPG_BRAZIL5_URL = "https://www.open-epg.com/files/brazil5.xml"
 FREE_EPG_PY_URL = "https://free-epg.de/api/epg/py.xml.gz"
 GLOBAL_WORLD_URL = "https://iptv-org.github.io/epg/guides/world.xml.gz"
 LATAM_HELMER_URL = "https://raw.githubusercontent.com/HelmerL86/EPG_Latin_America/main/EPG_Latino.xml.gz"
@@ -164,6 +177,19 @@ def run():
         (OPEN_EPG_ARGENTINA4_URL, "Open-EPG Argentina 4"),
         (OPEN_EPG_ARGENTINA2_URL, "Open-EPG Argentina 2"),
         (OPEN_EPG_URUGUAY2_URL, "Open-EPG Uruguay 2"),
+        (OPEN_EPG_PARAGUAY1_URL, "Open-EPG Paraguay 1"),
+        (OPEN_EPG_PARAGUAY2_URL, "Open-EPG Paraguay 2"),
+        (OPEN_EPG_MEXICO1_URL, "Open-EPG México 1"),
+        (OPEN_EPG_MEXICO2_URL, "Open-EPG México 2"),
+        (OPEN_EPG_URUGUAY_URL, "Open-EPG Uruguay 1"),
+        (OPEN_EPG_CHILE1_URL, "Open-EPG Chile 1"),
+        (OPEN_EPG_CHILE2_URL, "Open-EPG Chile 2"),
+        (OPEN_EPG_SPAIN_URL, "Open-EPG España"),
+        (OPEN_EPG_BRAZIL1_URL, "Open-EPG Brasil 1"),
+        (OPEN_EPG_BRAZIL2_URL, "Open-EPG Brasil 2"),
+        (OPEN_EPG_BRAZIL3_URL, "Open-EPG Brasil 3"),
+        (OPEN_EPG_BRAZIL4_URL, "Open-EPG Brasil 4"),
+        (OPEN_EPG_BRAZIL5_URL, "Open-EPG Brasil 5"),
         (FREE_EPG_PY_URL, "Free EPG Paraguay"),
         (IPTV_ORG_PY_URL, "IPTV-Org Paraguay"),
         (IPTV_ORG_AR_URL, "IPTV-Org Argentina"),
