@@ -148,8 +148,31 @@ def extract_channels_and_programs(xml_path, is_gz=False):
     except Exception as e: print(f"   ⚠️ Error procesando {xml_path}: {e}")
     return channels, programs
 
+# HABILITADOS EXCLUSIVAMENTE: Continente Americano, España, Rusia y Japón
+ALLOWED_REGIONS = [
+    # América del Sur
+    "argentina", "paraguay", "uruguay", "brasil", "brazil", "chile", "bolivia",
+    "peru", "perú", "colombia", "ecuador", "venezuela", "guyana", "suriname", "latam", "latino",
+    # América Central y Caribe
+    "costa rica", "guatemala", "honduras", "el salvador", "nicaragua", "panama", "panamá",
+    "dominican", "puerto rico", "cuba", "jamaica", "barbados", "trinidad", "haiti", "haití", "caribbean",
+    # América del Norte
+    "mexico", "méxico", "usa", "united states", "eeuu", "canada", "canadá",
+    # Europa / Asia autorizadas
+    "spain", "españa", "russia", "rusia", "japan", "japón", "japon",
+    # Fuentes internas/especiales
+    "pluto tv", "flow", "free epg", "iptv-org", "internacional global", "latino mix", "latino pro", "latino helmer", "tvmax", "novasports"
+]
+
+def is_allowed_region(name):
+    if not name: return False
+    low = name.lower()
+    return any(req in low for req in ALLOWED_REGIONS)
+
 def process_country(item):
     name = item.get('cou', 'Desconocido')
+    if not is_allowed_region(name):
+        return None
     url = item.get('url')
     if not url: return None
     path = download_file(url, name)
@@ -163,8 +186,13 @@ def process_country(item):
 def run():
     print("🚀 INICIANDO MOTOR NOVA-EPG ULTRA-FAST (v135)...")
     start_time = time.time()
-    files = get_files_list()
-    if not files: return
+    raw_files = get_files_list()
+    if not raw_files: return
+
+    # FILTRO REGIONAL ESTRICTO: Solo América, España, Rusia y Japón
+    files = [f for f in raw_files if is_allowed_region(f.get('cou', ''))]
+    print(f"🌍 Filtrado regional aplicado: {len(files)} países autorizados (de {len(raw_files)} totales).")
+
     os.makedirs(TEMP_DIR, exist_ok=True)
     os.makedirs(EPG_DIR, exist_ok=True)
     os.makedirs(DATA_DIR, exist_ok=True)
