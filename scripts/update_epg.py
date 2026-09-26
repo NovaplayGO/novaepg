@@ -123,14 +123,28 @@ def extract_channels_and_programs(xml_path, is_gz=False):
             min_stop_dt = now - timedelta(hours=12)   # Conservar programación desde hace 12 horas (Replay)
             max_start_dt = now + timedelta(hours=36)  # Conservar programación hasta 36 horas en el futuro (Hoy + Mañana)
 
+            # Filtro de descarte de títulos / descripciones genéricas "Sin Programación"
+            PLACEHOLDER_FILTER = [
+                "sin programación", "sin programacion", "no disponible",
+                "próximos programas", "proximos programas", "no hay información",
+                "no hay informacion", "sin información", "sin informacion"
+            ]
+
             for match in p_regex.finditer(content):
                 start_str, stop_str, cid, title, extra = match.groups()
+                title_clean = title.strip()[:120]
+                title_low = title_clean.lower()
+
+                # Descartar si el título contiene mensajes de "Sin Programación"
+                if any(ph in title_low for ph in PLACEHOLDER_FILTER):
+                    continue
+
                 start_dt = parse_time(start_str)
                 stop_dt = parse_time(stop_str)
                 if start_dt and stop_dt and stop_dt > min_stop_dt and start_dt < max_start_dt:
                     desc = desc_regex.search(extra)
                     desc_text = desc.group(1).strip()[:150] if desc else ""
-                    programs.append({"cid": cid, "t": title.strip()[:120], "s": start_dt.strftime("%Y%m%d%H%M%S"), "e": stop_dt.strftime("%Y%m%d%H%M%S"), "d": desc_text})
+                    programs.append({"cid": cid, "t": title_clean, "s": start_dt.strftime("%Y%m%d%H%M%S"), "e": stop_dt.strftime("%Y%m%d%H%M%S"), "d": desc_text})
     except Exception as e: print(f"   ⚠️ Error procesando {xml_path}: {e}")
     return channels, programs
 
@@ -279,6 +293,41 @@ def run():
 
         gz.write('</tv>')
 
+    print("📺 Generando guide.json.gz global (Nativo JSON Ultra-Compacto)...")
+    JSON_GZ_OUTPUT = os.path.join(EPG_DIR, "guide.json.gz")
+
+    json_channels = {}
+    for src in sources:
+        for c in src['channels']:
+            cid = c["id"]
+            if cid and cid not in json_channels:
+                json_channels[cid] = {"n": c["name"], "l": c["logo"]}
+
+    json_programmes = []
+    seen_prog_keys = set()
+    for src in sources:
+        for p in src['programs']:
+            prog_key = (p["cid"], p["s"], p["t"][:30])
+            if prog_key not in seen_prog_keys:
+                seen_prog_keys.add(prog_key)
+                json_programmes.append({
+                    "c": p["cid"],
+                    "t": p["t"],
+                    "s": p["s"],
+                    "e": p["e"],
+                    "d": p["d"]
+                })
+
+    full_guide_json = {
+        "generator": "NovaEPG-JSON-v2",
+        "channels": json_channels,
+        "programmes": json_programmes
+    }
+
+    with gzip.open(JSON_GZ_OUTPUT, 'wt', encoding='utf-8', compresslevel=9) as gz_json:
+        json.dump(full_guide_json, gz_json, separators=(',', ':'), ensure_ascii=False)
+
+    print(f"✅ guide.json.gz generado con éxito ({len(json_channels)} canales, {len(json_programmes)} programas).")
     print(f"✅ FINALIZADO EN {int(time.time() - start_time)} SEGUNDOS.")
 
 if __name__ == "__main__":
