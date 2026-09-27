@@ -28,7 +28,7 @@
     "slug": "brazil_1",
     "file": "epg_brazil_1.json",
     "count": 589,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -36,7 +36,7 @@
     "slug": "brazil_2",
     "file": "epg_brazil_2.json",
     "count": 81,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -52,7 +52,7 @@
     "slug": "brazil_5",
     "file": "epg_brazil_5.json",
     "count": 9,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -67,8 +67,8 @@
     "name": "Chile 1",
     "slug": "chile_1",
     "file": "epg_chile_1.json",
-    "count": 142,
-    "updated": "26-09-0026",
+    "count": 141,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -92,7 +92,7 @@
     "slug": "colombia_2",
     "file": "epg_colombia_2.json",
     "count": 101,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -100,7 +100,7 @@
     "slug": "costa_rica_1",
     "file": "epg_costa_rica_1.json",
     "count": 53,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -108,7 +108,7 @@
     "slug": "dominican_1",
     "file": "epg_dominican_1.json",
     "count": 60,
-    "updated": "25-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -116,7 +116,7 @@
     "slug": "ecuador_1",
     "file": "epg_ecuador_1.json",
     "count": 46,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -132,7 +132,7 @@
     "slug": "guatemala",
     "file": "epg_guatemala.json",
     "count": 88,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -140,7 +140,7 @@
     "slug": "honduras",
     "file": "epg_honduras.json",
     "count": 105,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -171,15 +171,15 @@
     "name": "Japan 1",
     "slug": "japan_1",
     "file": "epg_japan_1.json",
-    "count": 93,
-    "updated": "26-09-0026",
+    "count": 92,
+    "updated": "27-09-0026",
     "external": false
   },
   {
     "name": "Japan 2",
     "slug": "japan_2",
     "file": "epg_japan_2.json",
-    "count": 106,
+    "count": 104,
     "updated": "26-09-0026",
     "external": false
   },
@@ -203,8 +203,8 @@
     "name": "Mexico 1",
     "slug": "mexico_1",
     "file": "epg_mexico_1.json",
-    "count": 92,
-    "updated": "26-09-0026",
+    "count": 95,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -212,7 +212,7 @@
     "slug": "mexico_2",
     "file": "epg_mexico_2.json",
     "count": 145,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -227,7 +227,7 @@
     "name": "Open-EPG Argentina 4",
     "slug": "open_epg_argentina_4",
     "file": "epg_open_epg_argentina_4.json",
-    "count": 163,
+    "count": 161,
     "updated": "Ahora",
     "external": true
   },
@@ -267,7 +267,7 @@
     "name": "Open-EPG Chile 1",
     "slug": "open_epg_chile_1",
     "file": "epg_open_epg_chile_1.json",
-    "count": 142,
+    "count": 141,
     "updated": "Ahora",
     "external": true
   },
@@ -283,7 +283,7 @@
     "name": "Open-EPG España",
     "slug": "open_epg_espa_a",
     "file": "epg_open_epg_espa_a.json",
-    "count": 375,
+    "count": 338,
     "updated": "Ahora",
     "external": true
   },
@@ -291,7 +291,7 @@
     "name": "Open-EPG México 1",
     "slug": "open_epg_m_xico_1",
     "file": "epg_open_epg_m_xico_1.json",
-    "count": 92,
+    "count": 95,
     "updated": "Ahora",
     "external": true
   },
@@ -315,7 +315,7 @@
     "name": "Open-EPG Paraguay 2",
     "slug": "open_epg_paraguay_2",
     "file": "epg_open_epg_paraguay_2.json",
-    "count": 75,
+    "count": 74,
     "updated": "Ahora",
     "external": true
   },
@@ -323,7 +323,7 @@
     "name": "Open-EPG Uruguay 1",
     "slug": "open_epg_uruguay_1",
     "file": "epg_open_epg_uruguay_1.json",
-    "count": 164,
+    "count": 165,
     "updated": "Ahora",
     "external": true
   },
@@ -340,7 +340,7 @@
     "slug": "panama_1",
     "file": "epg_panama_1.json",
     "count": 52,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -348,15 +348,15 @@
     "slug": "paraguay_1",
     "file": "epg_paraguay_1.json",
     "count": 36,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
     "name": "Paraguay 2",
     "slug": "paraguay_2",
     "file": "epg_paraguay_2.json",
-    "count": 75,
-    "updated": "26-09-0026",
+    "count": 74,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -372,7 +372,7 @@
     "slug": "puerto_rico_1",
     "file": "epg_puerto_rico_1.json",
     "count": 42,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -380,7 +380,7 @@
     "slug": "puerto_rico_2",
     "file": "epg_puerto_rico_2.json",
     "count": 410,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -388,7 +388,7 @@
     "slug": "russia_1",
     "file": "epg_russia_1.json",
     "count": 4,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -396,22 +396,22 @@
     "slug": "russia_2",
     "file": "epg_russia_2.json",
     "count": 253,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
     "name": "Russia 3",
     "slug": "russia_3",
     "file": "epg_russia_3.json",
-    "count": 993,
-    "updated": "26-09-0026",
+    "count": 950,
+    "updated": "27-09-0026",
     "external": false
   },
   {
     "name": "Spain",
     "slug": "spain",
     "file": "epg_spain.json",
-    "count": 375,
+    "count": 338,
     "updated": "26-09-0026",
     "external": false
   },
@@ -420,7 +420,7 @@
     "slug": "trinidad",
     "file": "epg_trinidad.json",
     "count": 198,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -435,8 +435,8 @@
     "name": "United States 10",
     "slug": "united_states_10",
     "file": "epg_united_states_10.json",
-    "count": 815,
-    "updated": "26-09-0026",
+    "count": 822,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -467,8 +467,8 @@
     "name": "United States 4",
     "slug": "united_states_4",
     "file": "epg_united_states_4.json",
-    "count": 405,
-    "updated": "26-09-0026",
+    "count": 449,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -476,7 +476,7 @@
     "slug": "united_states_5",
     "file": "epg_united_states_5.json",
     "count": 146,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -507,16 +507,16 @@
     "name": "United States 9",
     "slug": "united_states_9",
     "file": "epg_united_states_9.json",
-    "count": 409,
-    "updated": "26-09-0026",
+    "count": 207,
+    "updated": "27-09-0026",
     "external": false
   },
   {
     "name": "Uruguay",
     "slug": "uruguay",
     "file": "epg_uruguay.json",
-    "count": 164,
-    "updated": "26-09-0026",
+    "count": 165,
+    "updated": "27-09-0026",
     "external": false
   },
   {
@@ -524,7 +524,7 @@
     "slug": "venezuela_1",
     "file": "epg_venezuela_1.json",
     "count": 154,
-    "updated": "26-09-0026",
+    "updated": "27-09-0026",
     "external": false
   }
 ]
