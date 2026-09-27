@@ -34,6 +34,6 @@ jobs:
           git config --local user.name "GitHub Action"
           # Eliminar el XML pesado para no superar los límites de GitHub
           rm -f epg/guide.xml
-          git add data/*.json epg/guide.xml.gz epg/guide.json.gz
+          git add data/*.json epg/guide.xml.gz
           git commit -m "EPG: Actualización automática diaria (Buscador + Web + App)" || echo "Sin cambios para commitear"
           git push
