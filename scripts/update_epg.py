@@ -243,7 +243,7 @@ def run():
         path = download_file(url, label)
         if path:
             c, p = extract_channels_and_programs(path)
-            sources.append(sanitize_source(label, c, p, "Ahora", True))
+            sources.append({"name": label, "channels": c, "programs": p, "age": "Ahora", "is_external": True})
             try: os.remove(path)
             except: pass
 
