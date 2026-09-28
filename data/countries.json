@@ -216,6 +216,14 @@
     "external": false
   },
   {
+    "name": "NOVASPORTS",
+    "slug": "novasports",
+    "file": "epg_novasports.json",
+    "count": 1,
+    "updated": "24/7",
+    "external": false
+  },
+  {
     "name": "Open-EPG Argentina 2",
     "slug": "open_epg_argentina_2",
     "file": "epg_open_epg_argentina_2.json",
@@ -323,7 +331,7 @@
     "name": "Open-EPG Uruguay 1",
     "slug": "open_epg_uruguay_1",
     "file": "epg_open_epg_uruguay_1.json",
-    "count": 164,
+    "count": 163,
     "updated": "Ahora",
     "external": true
   },
@@ -331,7 +339,7 @@
     "name": "Open-EPG Uruguay 2",
     "slug": "open_epg_uruguay_2",
     "file": "epg_open_epg_uruguay_2.json",
-    "count": 112,
+    "count": 111,
     "updated": "Ahora",
     "external": true
   },
@@ -363,8 +371,8 @@
     "name": "Peru",
     "slug": "peru",
     "file": "epg_peru.json",
-    "count": 177,
-    "updated": "27-09-0026",
+    "count": 176,
+    "updated": "28-09-0026",
     "external": false
   },
   {
@@ -421,6 +429,14 @@
     "file": "epg_trinidad.json",
     "count": 193,
     "updated": "28-09-0026",
+    "external": false
+  },
+  {
+    "name": "TVMAX",
+    "slug": "tvmax",
+    "file": "epg_tvmax.json",
+    "count": 1,
+    "updated": "Ahora",
     "external": false
   },
   {
@@ -515,7 +531,7 @@
     "name": "Uruguay",
     "slug": "uruguay",
     "file": "epg_uruguay.json",
-    "count": 164,
+    "count": 163,
     "updated": "28-09-0026",
     "external": false
   },
