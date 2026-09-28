@@ -331,7 +331,7 @@
     "name": "Open-EPG Uruguay 1",
     "slug": "open_epg_uruguay_1",
     "file": "epg_open_epg_uruguay_1.json",
-    "count": 163,
+    "count": 162,
     "updated": "Ahora",
     "external": true
   },
@@ -339,7 +339,7 @@
     "name": "Open-EPG Uruguay 2",
     "slug": "open_epg_uruguay_2",
     "file": "epg_open_epg_uruguay_2.json",
-    "count": 111,
+    "count": 110,
     "updated": "Ahora",
     "external": true
   },
@@ -531,7 +531,7 @@
     "name": "Uruguay",
     "slug": "uruguay",
     "file": "epg_uruguay.json",
-    "count": 163,
+    "count": 162,
     "updated": "28-09-0026",
     "external": false
   },
