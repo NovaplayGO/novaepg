@@ -123,11 +123,13 @@ def extract_channels_and_programs(xml_path, is_gz=False):
             min_stop_dt = now - timedelta(hours=12)   # Conservar programación desde hace 12 horas (Replay)
             max_start_dt = now + timedelta(hours=36)  # Conservar programación hasta 36 horas en el futuro (Hoy + Mañana)
 
-            # Filtro de descarte de títulos / descripciones genéricas "Sin Programación"
+            # Filtro de descarte estricto de títulos / descripciones genéricas "Sin Programación"
             PLACEHOLDER_FILTER = [
                 "sin programación", "sin programacion", "no disponible",
                 "próximos programas", "proximos programas", "no hay información",
-                "no hay informacion", "sin información", "sin informacion"
+                "no hay informacion", "sin información", "sin informacion",
+                "sin señal", "sin senal", "en mantenimiento", "proximos", "próximos",
+                "tba", "tbd", "por confirmar", "sin datos"
             ]
 
             for match in p_regex.finditer(content):
