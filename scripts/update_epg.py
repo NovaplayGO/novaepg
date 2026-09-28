@@ -171,6 +171,33 @@ def is_allowed_region(name):
     low = name.lower()
     return any(req in low for req in ALLOWED_REGIONS)
 
+def slugify(text):
+    return re.sub(r'[^a-z0-9]', '_', text.lower())
+
+def sanitize_source(name, channels, programs, age, is_external):
+    prefix = slugify(name)
+    id_mapping = {}
+    new_channels = []
+    for c in channels:
+        orig_id = c['id']
+        new_id = f"{prefix}_{orig_id}"
+        id_mapping[orig_id] = new_id
+        new_channels.append({"id": new_id, "name": c['name'], "logo": c['logo']})
+
+    new_programs = []
+    for p in programs:
+        orig_cid = p['cid']
+        if orig_cid in id_mapping:
+            new_cid = id_mapping[orig_cid]
+            new_programs.append({
+                "cid": new_cid,
+                "t": p['t'],
+                "s": p['s'],
+                "e": p['e'],
+                "d": p['d']
+            })
+    return {"name": name, "channels": new_channels, "programs": new_programs, "age": age, "is_external": is_external}
+
 def process_country(item):
     name = item.get('cou', 'Desconocido')
     if not is_allowed_region(name):
@@ -182,7 +209,7 @@ def process_country(item):
         c, p = extract_channels_and_programs(path)
         try: os.remove(path)
         except: pass
-        return {"name": name, "channels": c, "programs": p, "age": item.get('age', 'Hoy'), "is_external": False}
+        return sanitize_source(name, c, p, item.get('age', 'Hoy'), False)
     return None
 
 def run():
@@ -203,17 +230,17 @@ def run():
     # 1. Fuentes Internas
     if os.path.exists(TVMAX_FILE):
         c, p = extract_channels_and_programs(TVMAX_FILE)
-        sources.append({"name": "TVMAX", "channels": c, "programs": p, "age": "Ahora", "is_external": False})
+        sources.append(sanitize_source("TVMAX", c, p, "Ahora", False))
     if os.path.exists(NOVASPORTS_FILE):
         c, p = extract_channels_and_programs(NOVASPORTS_FILE)
-        sources.append({"name": "NOVASPORTS", "channels": c, "programs": p, "age": "24/7", "is_external": False})
+        sources.append(sanitize_source("NOVASPORTS", c, p, "24/7", False))
 
     # 2. Fuentes Externas Premium (v135)
     print("🎬 Procesando Pluto TV...")
     path_pluto = download_file(PLUTO_TV_URL, "Pluto TV")
     if path_pluto:
         c, p = extract_channels_and_programs(path_pluto)
-        sources.append({"name": "Pluto TV", "channels": c, "programs": p, "age": "Ahora", "is_external": True})
+        sources.append(sanitize_source("Pluto TV", c, p, "Ahora", True))
         try: os.remove(path_pluto)
         except: pass
 
@@ -252,7 +279,7 @@ def run():
         path = download_file(url, label)
         if path:
             c, p = extract_channels_and_programs(path)
-            sources.append({"name": label, "channels": c, "programs": p, "age": "Ahora", "is_external": True})
+            sources.append(sanitize_source(label, c, p, "Ahora", True))
             try: os.remove(path)
             except: pass
 
@@ -298,14 +325,21 @@ def run():
     seen_channels = set()
     seen_programmes = set()
 
+    # Obtener conjunto de IDs de canales que tienen al menos un programa válido
+    valid_channel_ids = set()
+    for src in sources:
+        for p in src['programs']:
+            if p.get('cid'):
+                valid_channel_ids.add(p['cid'])
+
     with gzip.open(GZ_OUTPUT, 'wt', encoding='utf-8', compresslevel=9) as gz:
         gz.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="NovaEPG">\n')
 
-        # 1. Deduplicar Canales
+        # 1. Deduplicar Canales (SOLO incluir canales que tengan al menos 1 programa válido)
         for src in sources:
             for c in src['channels']:
                 cid = c["id"]
-                if cid not in seen_channels:
+                if cid in valid_channel_ids and cid not in seen_channels:
                     seen_channels.add(cid)
                     gz.write(f'  <channel id="{clean(cid)}"><display-name>{clean(c["name"])}</display-name>')
                     if c["logo"]: gz.write(f'<icon src="{clean(c["logo"])}" />')
