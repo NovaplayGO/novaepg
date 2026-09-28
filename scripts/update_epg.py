@@ -171,33 +171,6 @@ def is_allowed_region(name):
     low = name.lower()
     return any(req in low for req in ALLOWED_REGIONS)
 
-def slugify(text):
-    return re.sub(r'[^a-z0-9]', '_', text.lower())
-
-def sanitize_source(name, channels, programs, age, is_external):
-    prefix = slugify(name)
-    id_mapping = {}
-    new_channels = []
-    for c in channels:
-        orig_id = c['id']
-        new_id = f"{prefix}_{orig_id}"
-        id_mapping[orig_id] = new_id
-        new_channels.append({"id": new_id, "name": c['name'], "logo": c['logo']})
-
-    new_programs = []
-    for p in programs:
-        orig_cid = p['cid']
-        if orig_cid in id_mapping:
-            new_cid = id_mapping[orig_cid]
-            new_programs.append({
-                "cid": new_cid,
-                "t": p['t'],
-                "s": p['s'],
-                "e": p['e'],
-                "d": p['d']
-            })
-    return {"name": name, "channels": new_channels, "programs": new_programs, "age": age, "is_external": is_external}
-
 def process_country(item):
     name = item.get('cou', 'Desconocido')
     if not is_allowed_region(name):
@@ -209,7 +182,7 @@ def process_country(item):
         c, p = extract_channels_and_programs(path)
         try: os.remove(path)
         except: pass
-        return sanitize_source(name, c, p, item.get('age', 'Hoy'), False)
+        return {"name": name, "channels": c, "programs": p, "age": item.get('age', 'Hoy'), "is_external": False}
     return None
 
 def run():
@@ -230,10 +203,10 @@ def run():
     # 1. Fuentes Internas
     if os.path.exists(TVMAX_FILE):
         c, p = extract_channels_and_programs(TVMAX_FILE)
-        sources.append(sanitize_source("TVMAX", c, p, "Ahora", False))
+        sources.append({"name": "TVMAX", "channels": c, "programs": p, "age": "Ahora", "is_external": False})
     if os.path.exists(NOVASPORTS_FILE):
         c, p = extract_channels_and_programs(NOVASPORTS_FILE)
-        sources.append(sanitize_source("NOVASPORTS", c, p, "24/7", False))
+        sources.append({"name": "NOVASPORTS", "channels": c, "programs": p, "age": "24/7", "is_external": False})
 
     # 2. Fuentes Externas Premium (v135)
     print("📡 Procesando fuentes Premium (Flow + Global)...")
