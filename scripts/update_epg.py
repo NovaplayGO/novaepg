@@ -236,19 +236,10 @@ def run():
         sources.append(sanitize_source("NOVASPORTS", c, p, "24/7", False))
 
     # 2. Fuentes Externas Premium (v135)
-    print("🎬 Procesando Pluto TV...")
-    path_pluto = download_file(PLUTO_TV_URL, "Pluto TV")
-    if path_pluto:
-        c, p = extract_channels_and_programs(path_pluto)
-        sources.append(sanitize_source("Pluto TV", c, p, "Ahora", True))
-        try: os.remove(path_pluto)
-        except: pass
-
-        print("📡 Procesando fuentes Premium (Flow + Global)...")
+    print("📡 Procesando fuentes Premium (Flow + Global)...")
     premium_sources = [
         (FLOW_AR_URL, "Flow Argentina"),
         (FLOW_PY_URL, "Flow Paraguay"),
-        (FLOW_UY_URL, "Flow Uruguay"),
         (OPEN_EPG_ARGENTINA4_URL, "Open-EPG Argentina 4"),
         (OPEN_EPG_ARGENTINA2_URL, "Open-EPG Argentina 2"),
         (OPEN_EPG_URUGUAY2_URL, "Open-EPG Uruguay 2"),
