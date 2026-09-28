@@ -92,7 +92,7 @@ def download_file(url, country):
     except: pass
     return None
 
-def extract_channels_and_programs(xml_path, is_gz=False):
+def extract_channels_and_programs(xml_path, is_gz=False, is_internal=False):
     channels = []
     programs = []
     c_regex = re.compile(r'<channel id="(.*?)">.*?<display-name.*?>(.*?)</display-name>(.*?)</channel>', re.DOTALL)
@@ -143,7 +143,19 @@ def extract_channels_and_programs(xml_path, is_gz=False):
 
                 start_dt = parse_time(start_str)
                 stop_dt = parse_time(stop_str)
-                if start_dt and stop_dt and stop_dt > min_stop_dt and start_dt < max_start_dt:
+
+                if is_internal and start_dt and stop_dt:
+                    now_dt = datetime.now(timezone.utc).replace(tzinfo=None)
+                    try:
+                        orig_start_time = start_dt.time()
+                        orig_stop_time = stop_dt.time()
+                        start_dt = datetime.combine(now_dt.date(), orig_start_time)
+                        stop_dt = datetime.combine(now_dt.date(), orig_stop_time)
+                        if stop_dt <= start_dt:
+                            stop_dt += timedelta(days=1)
+                    except: pass
+
+                if start_dt and stop_dt and (is_internal or (stop_dt > min_stop_dt and start_dt < max_start_dt)):
                     desc = desc_regex.search(extra)
                     desc_text = desc.group(1).strip()[:150] if desc else ""
                     programs.append({"cid": cid, "t": title_clean, "s": start_dt.strftime("%Y%m%d%H%M%S"), "e": stop_dt.strftime("%Y%m%d%H%M%S"), "d": desc_text})
@@ -202,10 +214,10 @@ def run():
 
     # 1. Fuentes Internas
     if os.path.exists(TVMAX_FILE):
-        c, p = extract_channels_and_programs(TVMAX_FILE)
+        c, p = extract_channels_and_programs(TVMAX_FILE, is_internal=True)
         sources.append({"name": "TVMAX", "channels": c, "programs": p, "age": "Ahora", "is_external": False})
     if os.path.exists(NOVASPORTS_FILE):
-        c, p = extract_channels_and_programs(NOVASPORTS_FILE)
+        c, p = extract_channels_and_programs(NOVASPORTS_FILE, is_internal=True)
         sources.append({"name": "NOVASPORTS", "channels": c, "programs": p, "age": "24/7", "is_external": False})
 
     # 2. Fuentes Externas Premium (v135)
