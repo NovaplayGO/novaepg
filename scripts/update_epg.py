@@ -9,12 +9,10 @@ from concurrent.futures import ThreadPoolExecutor
 
 # --- CONFIGURACIÓN ---
 API_FETCH_URL = "https://www.open-epg.com/app/epgfetch.php"
-PLUTO_TV_URL = "https://i.mjh.nz/PlutoTV/all.xml.gz"
 
 # FASE REPARACIÓN (v145): Nuevas fuentes 2026 (Sincronización Global)
 FLOW_AR_URL = "https://epg.lat/files/ar.xml.gz"
 FLOW_PY_URL = "https://epg.lat/files/py.xml.gz"
-FLOW_UY_URL = "https://epg.lat/files/uy.xml.gz"
 OPEN_EPG_ARGENTINA4_URL = "https://www.open-epg.com/files/argentina4.xml.gz"
 OPEN_EPG_URUGUAY2_URL = "https://www.open-epg.com/files/uruguay2.xml.gz"
 OPEN_EPG_ARGENTINA2_URL = "https://www.open-epg.com/files/argentina2.xml.gz"
@@ -301,21 +299,14 @@ def run():
     seen_channels = set()
     seen_programmes = set()
 
-    # Obtener conjunto de IDs de canales que tienen al menos un programa válido
-    valid_channel_ids = set()
-    for src in sources:
-        for p in src['programs']:
-            if p.get('cid'):
-                valid_channel_ids.add(p['cid'])
-
     with gzip.open(GZ_OUTPUT, 'wt', encoding='utf-8', compresslevel=9) as gz:
         gz.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="NovaEPG">\n')
 
-        # 1. Deduplicar Canales (SOLO incluir canales que tengan al menos 1 programa válido)
+        # 1. Deduplicar Canales
         for src in sources:
             for c in src['channels']:
                 cid = c["id"]
-                if cid in valid_channel_ids and cid not in seen_channels:
+                if cid not in seen_channels:
                     seen_channels.add(cid)
                     gz.write(f'  <channel id="{clean(cid)}"><display-name>{clean(c["name"])}</display-name>')
                     if c["logo"]: gz.write(f'<icon src="{clean(c["logo"])}" />')
