@@ -145,8 +145,8 @@ def extract_channels_and_programs(xml_path, is_gz=False, is_internal=False):
                 # FASE REPARACIÓN: Corrección de desfase de 30 minutos para Tigo Sports
                 if start_dt and stop_dt:
                     if "tigo" in cid.lower() or "tigo" in title_low:
-                        start_dt += timedelta(minutes=30)
-                        stop_dt += timedelta(minutes=30)
+                        start_dt += timedelta(minutes=15)
+                        stop_dt += timedelta(minutes=15)
 
                 if is_internal and start_dt and stop_dt:
                     now_dt = datetime.now(timezone.utc).replace(tzinfo=None)
