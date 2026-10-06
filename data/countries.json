@@ -19,8 +19,8 @@
     "name": "Bolivia",
     "slug": "bolivia",
     "file": "epg_bolivia.json",
-    "count": 120,
-    "updated": "05-10-0026",
+    "count": 121,
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -67,8 +67,8 @@
     "name": "Canada",
     "slug": "canada",
     "file": "epg_canada.json",
-    "count": 859,
-    "updated": "05-10-0026",
+    "count": 851,
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -91,8 +91,8 @@
     "name": "Colombia 1",
     "slug": "colombia_1",
     "file": "epg_colombia_1.json",
-    "count": 172,
-    "updated": "05-10-0026",
+    "count": 173,
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -132,7 +132,7 @@
     "slug": "el_salvador_1",
     "file": "epg_el_salvador_1.json",
     "count": 80,
-    "updated": "05-10-0026",
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -187,8 +187,8 @@
     "name": "Japan 2",
     "slug": "japan_2",
     "file": "epg_japan_2.json",
-    "count": 103,
-    "updated": "05-10-0026",
+    "count": 105,
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -196,7 +196,7 @@
     "slug": "japan_3",
     "file": "epg_japan_3.json",
     "count": 112,
-    "updated": "05-10-0026",
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -307,7 +307,7 @@
     "name": "Open-EPG España",
     "slug": "open_epg_espa_a",
     "file": "epg_open_epg_espa_a.json",
-    "count": 332,
+    "count": 370,
     "updated": "Ahora",
     "external": true
   },
@@ -435,8 +435,8 @@
     "name": "Spain",
     "slug": "spain",
     "file": "epg_spain.json",
-    "count": 332,
-    "updated": "05-10-0026",
+    "count": 370,
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -467,7 +467,7 @@
     "name": "United States 10",
     "slug": "united_states_10",
     "file": "epg_united_states_10.json",
-    "count": 822,
+    "count": 814,
     "updated": "06-10-0026",
     "external": false
   },
@@ -484,7 +484,7 @@
     "slug": "united_states_2",
     "file": "epg_united_states_2.json",
     "count": 547,
-    "updated": "05-10-0026",
+    "updated": "06-10-0026",
     "external": false
   },
   {
@@ -499,7 +499,7 @@
     "name": "United States 4",
     "slug": "united_states_4",
     "file": "epg_united_states_4.json",
-    "count": 449,
+    "count": 405,
     "updated": "06-10-0026",
     "external": false
   },
