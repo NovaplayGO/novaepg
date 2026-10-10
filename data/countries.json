@@ -1,5 +1,13 @@
 [
   {
+    "name": "NovaEventos",
+    "slug": "novaeventos",
+    "file": "novaeventos.json",
+    "count": 5,
+    "updated": "2026-10-09",
+    "external": false
+  },
+  {
     "name": "Argentina",
     "slug": "argentina",
     "file": "epg_argentina.json",

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "evento.1",
+    "n": "Evento 1",
+    "l": "",
+    "p": [
+      {
+        "t": "24/7 (Eventos)",
+        "s": "20260101000000",
+        "e": "20301231235959",
+        "d": "Transmisión permanente 24/7 de eventos especiales"
+      }
+    ]
+  },
+  {
+    "id": "evento.2",
+    "n": "Evento 2",
+    "l": "",
+    "p": [
+      {
+        "t": "24/7 (Eventos)",
+        "s": "20260101000000",
+        "e": "20301231235959",
+        "d": "Transmisión permanente 24/7 de eventos especiales"
+      }
+    ]
+  },
+  {
+    "id": "evento.3",
+    "n": "Evento 3",
+    "l": "",
+    "p": [
+      {
+        "t": "24/7 (Eventos)",
+        "s": "20260101000000",
+        "e": "20301231235959",
+        "d": "Transmisión permanente 24/7 de eventos especiales"
+      }
+    ]
+  },
+  {
+    "id": "evento.4",
+    "n": "Evento 4",
+    "l": "",
+    "p": [
+      {
+        "t": "24/7 (Eventos)",
+        "s": "20260101000000",
+        "e": "20301231235959",
+        "d": "Transmisión permanente 24/7 de eventos especiales"
+      }
+    ]
+  },
+  {
+    "id": "evento.5",
+    "n": "Evento 5",
+    "l": "",
+    "p": [
+      {
+        "t": "24/7 (Eventos)",
+        "s": "20260101000000",
+        "e": "20301231235959",
+        "d": "Transmisión permanente 24/7 de eventos especiales"
+      }
+    ]
+  }
+]
