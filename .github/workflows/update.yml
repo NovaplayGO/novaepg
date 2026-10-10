@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-          # Eliminamos el cache: 'pip' ya que no hay requirements.txt
 
       - name: Instalar Dependencias
         run: pip install requests
@@ -28,12 +27,15 @@ jobs:
       - name: Ejecutar Actualización EPG
         run: python scripts/update_epg.py
 
+      - name: Generar EPG NovaEventos 24/7
+        run: python scripts/novaeventos_generator.py
+
       - name: Commit y Push de Datos
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           # Eliminar el XML pesado para no superar los límites de GitHub
           rm -f epg/guide.xml
-          git add data/*.json epg/guide.xml.gz
-          git commit -m "EPG: Actualización automática diaria (Buscador + Web + App)" || echo "Sin cambios para commitear"
+          git add data/*.json epg/guide.xml.gz epg/novaeventos.xml.gz
+          git commit -m "EPG: Actualización automática diaria + NovaEventos 24/7" || echo "Sin cambios para commitear"
           git push
